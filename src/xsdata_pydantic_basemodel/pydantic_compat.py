@@ -50,7 +50,7 @@ def _pydantic_field_to_dataclass_field(
     metadata = _get_metadata(pydantic_field).copy()
 
     # HACK
-    # see https://github.com/tlambert03/ome-types/pull/235 for description of problem
+    # see https://github.com/imaging-formats/ome-types/pull/235 for background
     # This is a hack to get around the fact that xsdata requires Element choices
     # to be added to the Field metadata as `choices: List[dict]` ... but pydantic
     # requires that everything in a Field be hashable (if you want to cast the model
