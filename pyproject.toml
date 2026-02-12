@@ -36,8 +36,8 @@ dependencies = [
 ]
 
 [project.urls]
-Source = "https://github.com/tlambert03/ome-types"
-Tracker = "https://github.com/tlambert03/ome-types/issues"
+Source = "https://github.com/imaging-formats/ome-types"
+Tracker = "https://github.com/imaging-formats/ome-types/issues"
 Documentation = "https://ome-types.readthedocs.io/en/latest/"
 
 [project.entry-points."napari.manifest"]
@@ -56,7 +56,7 @@ lxml = [
   "lxml >=5.3; python_version >= '3.13'",
 ]
 # Keep build here for hatch compatibility
-build = ["ruff ==0.13.2", "xsdata[cli] >=24.7"]
+build = ["ruff ==0.13.2", "xsdata[cli] ==25.7"]
 
 # https://peps.python.org/pep-0735/
 [dependency-groups]
@@ -137,6 +137,7 @@ select = [
 ignore = [
   "D104", #  Missing docstring in public package
   "D401", # First line should be in imperative mood
+  "D404", # First word should not be 'This'
   "D401", # First line should be in imperative mood
   "D100", # Missing docstring in public module
   "S3",   # Using `xml` to parse untrusted data is known to be vulnerable to XML attacks

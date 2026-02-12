@@ -1,7 +1,7 @@
 site_name: ome-types
 site_author: Talley Lambert
-repo_name: tlambert03/ome-types
-repo_url: https://github.com/tlambert03/ome-types
+repo_name: imaging-formats/ome-types
+repo_url: https://github.com/imaging-formats/ome-types
 edit_uri: edit/main/docs/
 site_description: Python dataclasses for the OME data model
 copyright: "Talley Lambert &copy; 2023"
