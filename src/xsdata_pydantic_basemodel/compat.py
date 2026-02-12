@@ -1,7 +1,7 @@
 import dataclasses as dc
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any, Callable, ClassVar, Generic, Optional, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypeVar
 
 from pydantic import BaseModel, Field
 from pydantic_core import core_schema as cs
@@ -32,9 +32,9 @@ class AnyElement(BaseModel):
     :param attributes: The element's key-value attribute mappings.
     """
 
-    qname: Optional[str] = Field(default=None)
-    text: Optional[str] = Field(default=None)
-    tail: Optional[str] = Field(default=None)
+    qname: str | None = Field(default=None)
+    text: str | None = Field(default=None)
+    tail: str | None = Field(default=None)
     children: list["AnyElement"] = Field(
         default_factory=list,
         json_schema_extra={"type": XmlType.WILDCARD},
@@ -67,7 +67,7 @@ class DerivedElement(BaseModel, Generic[T]):
 
     qname: str
     value: T
-    type: Optional[str] = None
+    type: str | None = None
 
     model_config: ClassVar["ConfigDict"] = {"arbitrary_types_allowed": True}
 

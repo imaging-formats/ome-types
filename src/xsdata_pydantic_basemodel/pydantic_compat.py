@@ -3,11 +3,13 @@ from __future__ import annotations
 import dataclasses as dc
 import warnings
 from functools import cache
-from typing import TYPE_CHECKING, Any, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from pydantic_core import PydanticUndefined
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from pydantic import BaseModel
     from pydantic.fields import FieldInfo
 

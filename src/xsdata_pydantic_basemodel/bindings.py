@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 from xml.etree.ElementTree import QName
 
 from xsdata.formats.dataclass import context, parsers, serializers
@@ -12,7 +12,7 @@ from xsdata.utils import collections, namespaces
 from xsdata.utils.constants import EMPTY_MAP, return_input
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Callable, Generator, Iterator
 
     from pydantic import BaseModel
     from xsdata.formats.dataclass.models.elements import XmlMeta

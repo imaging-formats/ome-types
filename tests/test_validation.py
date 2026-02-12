@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import contextlib
 from contextlib import AbstractContextManager, nullcontext
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 import pytest
 
 from ome_types import _conversion, validate_xml
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
 VALIDATORS: dict[str, Callable] = {}

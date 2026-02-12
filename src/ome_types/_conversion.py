@@ -8,7 +8,7 @@ from contextlib import nullcontext, suppress
 from functools import cache
 from pathlib import Path
 from struct import Struct
-from typing import TYPE_CHECKING, Callable, cast, overload
+from typing import TYPE_CHECKING, cast, overload
 
 from pydantic import BaseModel
 from xsdata.formats.dataclass.parsers.config import ParserConfig
@@ -26,7 +26,7 @@ except ImportError:  # pragma: no cover
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
     from contextlib import AbstractContextManager
     from typing import Any, BinaryIO, Literal, TypedDict
     from xml.etree import ElementTree

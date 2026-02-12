@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from datetime import datetime
 from enum import Enum
 from textwrap import indent
-from typing import TYPE_CHECKING, Any, ClassVar, Optional, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 from pydantic import BaseModel, field_validator
 
@@ -106,7 +106,7 @@ class OMEType(BaseModel):
         """
         add_quantity_properties(cls)
 
-    def __repr_args__(self) -> Sequence[tuple[Optional[str], Any]]:
+    def __repr_args__(self) -> Sequence[tuple[str | None, Any]]:
         """Repr with only set values, and truncated sequences."""
         args = []
         for k, v in self.model_dump(exclude_defaults=True).items():

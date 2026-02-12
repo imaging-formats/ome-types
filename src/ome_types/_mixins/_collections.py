@@ -1,6 +1,6 @@
 import itertools
 from collections.abc import Iterator
-from typing import Any, Generic, TypeVar, Union, cast, no_type_check
+from typing import Any, Generic, TypeAlias, TypeVar, cast, no_type_check
 
 from pydantic import BaseModel
 
@@ -82,19 +82,19 @@ class CollectionMixin(BaseModel, Generic[T]):
 
 # ------------------------ StructuredAnnotations ------------------------
 
-AnnotationType = Union[
-    XMLAnnotation,
-    FileAnnotation,
-    ListAnnotation,
-    LongAnnotation,
-    DoubleAnnotation,
-    CommentAnnotation,
-    BooleanAnnotation,
-    TimestampAnnotation,
-    TagAnnotation,
-    TermAnnotation,
-    MapAnnotation,
-]
+AnnotationType: TypeAlias = (
+    XMLAnnotation
+    | FileAnnotation
+    | ListAnnotation
+    | LongAnnotation
+    | DoubleAnnotation
+    | CommentAnnotation
+    | BooleanAnnotation
+    | TimestampAnnotation
+    | TagAnnotation
+    | TermAnnotation
+    | MapAnnotation
+)
 # get_args wasn't available until Python 3.8
 AnnotationInstances = AnnotationType.__args__  # type: ignore
 
@@ -110,7 +110,9 @@ class StructuredAnnotationsMixin(CollectionMixin[AnnotationType]):
         return item.__class__.__name__[:-10].lower() + "_annotations"
 
 
-ShapeType = Union[Rectangle, Mask, Point, Ellipse, Line, Polyline, Polygon, Label]
+ShapeType: TypeAlias = (
+    Rectangle | Mask | Point | Ellipse | Line | Polyline | Polygon | Label
+)
 ShapeInstances = ShapeType.__args__  # type: ignore
 
 
