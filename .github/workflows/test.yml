@@ -61,7 +61,7 @@ jobs:
           uv run --no-sync pytest --cov --cov-report=xml --cov-append
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: covreport-${{ matrix.platform }}-py${{ matrix.python-version }}-${{ matrix.resolution }}
           path: ./.coverage*
@@ -111,7 +111,7 @@ jobs:
         run: uv run --no-sync pytest --cov --cov-report=xml --cov-append -k test_autogen
         env:
           TEST_AUTOGEN: "1"
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
