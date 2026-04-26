@@ -59,6 +59,11 @@ conda install -c conda-forge ome-types
 pip install git+https://github.com/imaging-formats/ome-types.git
 ```
 
+### Qt widget and napari plugin
+
+To install the Qt widget and napari plugin, install `ome-types-widget`
+along side `ome-types` in any of the above approaches.
+
 ## Usage
 
 ### convert an XML string or filepath into an instance of `ome_types.model.OME`
