@@ -38,6 +38,7 @@ RUFF_IGNORE: list[str] = [
     "E501",  # Line too long
     "S105",  # Possible hardcoded password
     "RUF002",  # ambiguous-unicode-character-docstring
+    "TC",  # pydantic needs annotation imports at runtime
 ]
 
 
@@ -68,13 +69,18 @@ def get_config(
             )
         )
 
+    # kw_only is important, it makes required fields actually be required.
+    # xsdata >= 26.1 removed the option and always uses kw_only.
+    fmt_kwargs: dict[str, Any] = {}
+    if "kw_only" in cfg.OutputFormat.__dataclass_fields__:
+        fmt_kwargs["kw_only"] = kw_only
+
     keep_case = cfg.NameConvention(cfg.NameCase.ORIGINAL, "type")
     return cfg.GeneratorConfig(
         output=GeneratorOutput(
             package=package,
             # format.value lets us use our own generator
-            # kw_only is important, it makes required fields actually be required
-            format=cfg.OutputFormat(value=OME_FORMAT, kw_only=kw_only),
+            format=cfg.OutputFormat(value=OME_FORMAT, **fmt_kwargs),
             structure_style=cfg.StructureStyle.CLUSTERS,
             docstring_style=cfg.DocstringStyle.NUMPY,
             compound_fields=cfg.CompoundFields(enabled=compound_fields),
@@ -162,13 +168,25 @@ def _print_green(text: str) -> None:
 
 KWARGS_MODULE = """
 from __future__ import annotations
-from typing import TypeAlias, Union, List, TypedDict
-from datetime import datetime
-import ome_types.model as ome
+from typing import TYPE_CHECKING, TypeAlias, Union, List, TypedDict
+
+if TYPE_CHECKING:
+    from datetime import datetime
+    import ome_types.model as ome
 
 class RefDict(TypedDict):
     id: str
 """
+KEEP_WORDS = {
+    "None",
+    "True",
+    "False",
+    "Union",
+    "List",
+    "TypedDict",
+    "TypeAlias",
+    "TYPE_CHECKING",
+}
 
 
 def _build_typed_dicts(package_dir: str) -> None:
@@ -227,7 +245,7 @@ def _build_typed_dicts(package_dir: str) -> None:
     # prefix all remaining capitalized words with ome.
     def _repl(match: re.Match) -> str:
         word = match[1]
-        if word in {"None", "True", "False", "Union", "List", "TypedDict", "TypeAlias"}:
+        if word in KEEP_WORDS:
             return word
         if word.endswith(SUFFIX):
             return word

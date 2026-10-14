@@ -72,6 +72,9 @@ class OmeFilters(PydanticBaseFilters):
         # the config.  For now, we just assume it's the OME schema and that's the
         # hardcoded default in _util.get_appinfo
         self.appinfo = _util.get_appinfo()
+        # xsdata >= 26.1 removed `union_type` and `kw_only` (both always on)
+        self.union_type = getattr(self, "union_type", True)
+        self.kw_only = getattr(self.format, "kw_only", True)
 
     @contextmanager
     def _modern_typing(self) -> Iterator[None]:
@@ -116,7 +119,7 @@ class OmeFilters(PydanticBaseFilters):
         if attr.name in ovr.NEVER_OPTIONAL:
             return False
         return attr.is_nillable or (
-            attr.default is None and (attr.is_optional or not self.format.kw_only)
+            attr.default is None and (attr.is_optional or not self.kw_only)
         )
 
     def _format_type(self, attr: Attr, result: str) -> str:
@@ -139,6 +142,10 @@ class OmeFilters(PydanticBaseFilters):
             return self._format_type(attr, ovr.OVERRIDE_ELEM_TO_CLASS[attr.name])
 
         type_name = super().field_type(obj, attr)
+        if attr.name == "Union":
+            # xsdata >= 26.1 makes all elements in a <choice> optional,
+            # but ROI.Union is required (minOccurs=1 in a single-element choice)
+            type_name = type_name.removeprefix("None | ")
         # we want to use datetime.datetime instead of XmlDateTime
         return type_name.replace("XmlDateTime", "datetime")
 
@@ -163,7 +170,7 @@ class OmeFilters(PydanticBaseFilters):
 
     def format_arguments(self, kwargs: dict, indent: int = 0) -> str:
         # keep default_factory at the front
-        attr_name = kwargs["metadata"].get("name")
+        attr_name = kwargs.get("metadata", {}).get("name")
         if (override := ovr.get(attr_name)) and override.default_factory:
             kwargs.pop("default", None)
             kwargs["default_factory"] = override.default_factory

@@ -55,7 +55,12 @@ lxml = [
   "lxml >=5.3; python_version >= '3.13'",
 ]
 # Keep build here for hatch compatibility
-build = ["ruff ==0.13.2", "xsdata[cli] ==25.7"]
+# xsdata <26.1 can't parse the schema on python 3.14+
+build = [
+  "ruff ==0.13.2",
+  "xsdata[cli] >=25.7,<27",
+  "xsdata[cli] >=26.1,<27; python_version >= '3.14'",
+]
 
 # https://peps.python.org/pep-0735/
 [dependency-groups]
