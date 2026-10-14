@@ -30,9 +30,14 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
   "pydantic >=2.4.0",
+  "pydantic >=2.12.0; python_version >= '3.14'",
+  "pydantic >=2.14.0; python_version >= '3.15'",
   "pydantic-core>=2.20.0; python_version>='3.13'",
+  "pydantic-core >=2.41.1; python_version >= '3.14'",
+  "pydantic-core >=2.50.0; python_version >= '3.15'",
   "pydantic_extra_types >=2.0.0",
   "xsdata >=24.4",
+  "xsdata >=24.9; python_version >= '3.15'",
 ]
 
 [project.urls]
@@ -53,6 +58,8 @@ pint = [
 lxml = [
   "lxml >=5.0",
   "lxml >=5.3; python_version >= '3.13'",
+  "lxml >=6.0.1; python_version >= '3.14'",
+  "lxml >=6.1.2; python_version >= '3.15'",
 ]
 # Keep build here for hatch compatibility
 # xsdata <26.1 can't parse the schema on python 3.14+
@@ -69,13 +76,17 @@ test = [
   "coverage >=6.4.4",
   "numpy >=1.26.0",
   "numpy >=2.1; python_version >= '3.13'",
+  "numpy >=2.3.2; python_version >= '3.14'",
+  "numpy >=2.5.2; python_version >= '3.15'",
   "pytest-codspeed >=2.4.0",
   "pytest-cov >=4.0.0",
   "pytest-mypy-plugins >=4.0.0",
   "mypy >=2.0",
   "pytest >=7.0.0",
-  "xmlschema >=2.0.0,<2.5",
-  "xmlschema >=2.3.0,<2.5; python_version >= '3.12'",
+  "pytest >=7.4.0; python_version >= '3.14'",
+  # xmlschema <2.5 needs elementpath <5, which can't import on py3.15 (unicode 17)
+  "xmlschema >=2.0.0,<2.5; python_version < '3.15'",
+  "xmlschema >=2.3.0,<2.5; python_version >= '3.12' and python_version < '3.15'",
   "xsdata[cli] >=24.4",
 ]
 test-qt = [{ include-group = 'test' }, "qtpy >=2.4.0", "pytest-qt >=4.4.0"]
@@ -189,6 +200,7 @@ filterwarnings = [
   "ignore:::paquo",                                    # paquo tests
   "ignore:the imp module is deprecated",               # omero tests
   "ignore:Failing to pass a value:DeprecationWarning", # xsdata
+  "ignore:pathlib.PurePath.as_uri:DeprecationWarning", # xmlschema <2.5 on py3.14+
 ]
 
 # https://mypy.readthedocs.io/en/stable/config_file.html
