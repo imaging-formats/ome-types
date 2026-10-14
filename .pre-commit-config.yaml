@@ -26,7 +26,7 @@ repos:
     rev: v1.18.2
     hooks:
       - id: mypy
-        exclude: ^tests|^docs|_napari_plugin|widgets
+        exclude: ^tests|^docs
         additional_dependencies:
           - pydantic>=2.10
           - xsdata>=24.4

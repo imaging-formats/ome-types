@@ -74,29 +74,6 @@ jobs:
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
 
-  test-widget:
-    name: test-widget
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: ["PyQt5", "PySide6", "PyQt6"]
-    steps:
-      - uses: actions/checkout@v6
-      - uses: astral-sh/setup-uv@v7
-        with:
-          enable-cache: true
-          python-version: "3.11"
-      - uses: tlambert03/setup-qt-libs@v1
-      - name: Install
-        run: |
-          uv sync --group test-qt
-          uv pip install "${{ matrix.backend }}"
-      - name: Test
-        uses: aganders3/headless-gui@v2
-        with:
-          run: uv run --no-sync pytest tests/test_widget.py
-
   test-build:
     name: Build
     runs-on: ubuntu-latest
