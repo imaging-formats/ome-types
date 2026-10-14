@@ -67,6 +67,30 @@ def test_uncapitalized_ns() -> None:
     assert isinstance(ome, model.Detector)
 
 
+def test_2013_06s_ns() -> None:
+    # typo'd namespaces written by python-bioformats' omexml.py (e.g. imctools)
+    xml = """
+    <ome:OME xmlns:ns2="http://www.openmicroscopy.org/Schemas/BinaryFile/2013-06s"
+      xmlns:ome="http://www.openmicroscopy.org/Schemas/ome/2013-06s"
+      xmlns:sa="http://www.openmicroscopy.org/Schemas/sa/2013-06s">
+      <ome:Image ID="Image:0" Name="test">
+        <ome:Pixels DimensionOrder="XYCZT" ID="Pixels:0" SizeC="1" SizeT="1"
+          SizeX="2" SizeY="2" SizeZ="1" Type="float">
+          <ome:Channel ID="Channel:0:0" Name="ch0" SamplesPerPixel="1" />
+          <ns2:BinData BigEndian="false" Length="0" />
+        </ome:Pixels>
+      </ome:Image>
+      <sa:StructuredAnnotations>
+        <sa:CommentAnnotation ID="Annotation:0"><sa:Value>hi</sa:Value>
+        </sa:CommentAnnotation>
+      </sa:StructuredAnnotations>
+    </ome:OME>
+    """
+    ome = from_xml(xml)
+    assert ome.images[0].pixels.channels[0].name == "ch0"
+    assert ome.structured_annotations.comment_annotations[0].value == "hi"
+
+
 def test_weird_input() -> None:
     with pytest.raises(ValueError, match="Could not parse XML"):
         from_xml("ImageJmetadata")

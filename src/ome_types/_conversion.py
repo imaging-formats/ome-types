@@ -466,8 +466,9 @@ def ensure_2016(
     except Exception as e:
         raise ValueError(f"Could not parse XML from {source!r}") from e
 
-    # catch rare case of OME-XML with lowercase ome in namespace
-    if "Schemas/ome/" in ns_in:
+    # catch rare case of OME-XML with lowercase ome in namespace,
+    # or the "2013-06s" typo written by python-bioformats' omexml.py
+    if "Schemas/ome/" in ns_in or ns_in.endswith("/2013-06s"):
         normed_source = _capitalize_ome(normed_source)
         ns_in = _get_ns_file(normed_source)
 
@@ -497,7 +498,7 @@ def ensure_2016(
 
 
 def _capitalize_ome(source: FileLike) -> FileLike:
-    """Fix OME namespace capitalization errors."""
+    """Fix OME namespace capitalization errors and the "2013-06s" typo."""
     if hasattr(source, "read") and hasattr(source, "seek"):
         source.seek(0)
         data = source.read()
@@ -505,7 +506,13 @@ def _capitalize_ome(source: FileLike) -> FileLike:
         with open(source, "rb") as fh:
             data = fh.read()
 
-    io_out = io.BytesIO(data.replace(b"Schemas/ome/", b"Schemas/OME/"))
+    for bad, good in [
+        (b"Schemas/ome/", b"Schemas/OME/"),
+        (b"Schemas/sa/", b"Schemas/SA/"),
+        (b'/2013-06s"', b'/2013-06"'),
+    ]:
+        data = data.replace(bad, good)
+    io_out = io.BytesIO(data)
     io_out.seek(0)
     return io_out
 
