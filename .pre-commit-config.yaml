@@ -29,6 +29,6 @@ repos:
         exclude: ^tests|^docs|_napari_plugin|widgets
         additional_dependencies:
           - pydantic>=2.10
-          - xsdata>=24.4
+          - xsdata==25.7  # match `build` extra pin used by ome_autogen
           - Pint
           - types-lxml

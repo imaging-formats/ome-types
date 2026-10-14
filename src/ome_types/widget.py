@@ -30,7 +30,7 @@ class OMETree(QTreeWidget):
 
     def __init__(
         self,
-        ome_meta: Path | OME | str | None | dict = None,
+        ome_meta: Path | OME | str | dict | None = None,
         viewer: napari.viewer.Viewer = None,
         parent: QWidget | None = None,
     ) -> None:
@@ -107,7 +107,7 @@ class OMETree(QTreeWidget):
         except Exception:
             return None
 
-    def update(self, ome: OME | str | None | dict) -> None:
+    def update(self, ome: OME | str | dict | None) -> None:
         """Update the widget with a new OME object or path to an OME XML file."""
         if not ome:
             return

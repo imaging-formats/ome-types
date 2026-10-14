@@ -69,7 +69,7 @@ schema](https://www.openmicroscopy.org/Schemas/Documentation/Generated/OME-2016-
 ```python
 from ome_types import from_xml
 
-ome = from_xml('tests/data/hcs.ome.xml')
+ome = from_xml("tests/data/hcs.ome.xml")
 ```
 
 ### extract OME metadata from an OME-TIFF
@@ -77,7 +77,7 @@ ome = from_xml('tests/data/hcs.ome.xml')
 ```python
 from ome_types import from_tiff
 
-ome2 = from_tiff('tests/data/ome.tiff')
+ome2 = from_tiff("tests/data/ome.tiff")
 ```
 
 ### manipulate the metadata via python objects

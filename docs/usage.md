@@ -201,7 +201,7 @@ import uuid
 
 ome = OME(uuid=f"urn:uuid:{uuid.uuid4()}")
 pixels = Pixels(
-    dimension_order='XYZCT',
+    dimension_order="XYZCT",
     physical_size_x="0.2516",
     physical_size_y="0.2516",
     physical_size_z="0.75",
@@ -210,25 +210,29 @@ pixels = Pixels(
     size_z=31,
     size_c=3,
     size_t=40,
-    type='uint16')
-pixels.channels.extend([
-  Channel(color="16711935", name="NCAPD2", samples_per_pixel=1),
-  Channel(color="65535", name="DNA", samples_per_pixel=1),
-  Channel(color="-1", name="NEG_Dextran", samples_per_pixel=1)])
+    type="uint16",
+)
+pixels.channels.extend(
+    [
+        Channel(color="16711935", name="NCAPD2", samples_per_pixel=1),
+        Channel(color="65535", name="DNA", samples_per_pixel=1),
+        Channel(color="-1", name="NEG_Dextran", samples_per_pixel=1),
+    ]
+)
 ome.images.append(Image(name="cell0005_R0001", pixels=pixels))
 
 for t in range(40):
-    filename = "TR1_2_W0001_P0001_T%04g.tif" % (t+1)
+    filename = "TR1_2_W0001_P0001_T%04g.tif" % (t + 1)
     tiff_uuid = f"urn:uuid:{uuid.uuid4()}"
     tiff = TiffData(
         first_c=0,
         first_t=t,
         first_z=0,
         plane_count=93,
-        uuid=TiffData.UUID(value=tiff_uuid, file_name=filename)
+        uuid=TiffData.UUID(value=tiff_uuid, file_name=filename),
     )
     pixels.tiff_data_blocks.append(tiff)
 
-with open("cell0005_R0001.companion.ome", 'w') as f:
+with open("cell0005_R0001.companion.ome", "w") as f:
     f.write(ome.to_xml())
 ```
