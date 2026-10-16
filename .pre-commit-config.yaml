@@ -48,7 +48,7 @@ repos:
       - id: mypy
         exclude: ^tests|^docs|_napari_plugin|widgets
         additional_dependencies:
-          - pydantic>=2.10
+          - pydantic>=2.14.0
           - xsdata==26.2  # within `build` extra range used by ome_autogen
           - Pint
           - types-lxml
