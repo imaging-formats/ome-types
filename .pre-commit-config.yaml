@@ -1,22 +1,42 @@
-ci:
-  autoupdate_schedule: monthly
-  autofix_commit_msg: "style(pre-commit.ci): auto fixes [...]"
-  autoupdate_commit_msg: "ci(pre-commit.ci): autoupdate"
+# run locally with `uv run prek run --all-files` (https://prek.j178.dev/)
+# hook versions are kept up to date by dependabot (see .github/dependabot.yml)
 
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+        args: [--unsafe] # mkdocs.yml uses custom python tags
+      - id: end-of-file-fixer
+        exclude: ^tests/data/
+      - id: trailing-whitespace
+        exclude: ^tests/data/
+
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: '0.26'
+    rev: "0.26"
     hooks:
       - id: validate-pyproject
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.31.1
+    hooks:
+      - id: zizmor
 
   - repo: https://github.com/adhtruong/mirrors-typos
     rev: v1.51.1
     hooks:
       - id: typos
-        args: [--force-exclude]  # omit --write-changes
+        args: [--force-exclude] # omit --write-changes
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.0
+    rev: v0.17.1
     hooks:
       - id: ruff-check
         args: [--fix, --unsafe-fixes]

@@ -5,7 +5,7 @@
 [![CondaVersion](https://img.shields.io/conda/v/conda-forge/ome-types)](https://anaconda.org/conda-forge/ome-types)
 [![Python
 Version](https://img.shields.io/pypi/pyversions/ome-types.svg)](https://python.org)
-[![Tests](https://github.com/imaging-formats/ome-types/workflows/tests/badge.svg)](https://github.com/imaging-formats/ome-types/actions)
+[![CI](https://github.com/imaging-formats/ome-types/actions/workflows/ci.yml/badge.svg)](https://github.com/imaging-formats/ome-types/actions/workflows/ci.yml)
 [![Docs](https://readthedocs.org/projects/ome-types/badge/?version=latest)](https://ome-types.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/imaging-formats/ome-types/branch/main/graph/badge.svg?token=GocY9y8A32)](https://codecov.io/gh/imaging-formats/ome-types)
 [![Benchmarks](https://img.shields.io/badge/⏱-codspeed-%23FF7B53)](https://codspeed.io/imaging-formats/ome-types)

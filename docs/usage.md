@@ -21,14 +21,14 @@ This object is a container for all information objects accessible by OME.
 
 ``` python
 In [3]: ome
-Out[3]: 
+Out[3]:
 OME(
     images=[<1 Images>],
     plates=[<1 Plates>],
 )
 
 In [4]: ome.plates[0]
-Out[4]: 
+Out[4]:
 Plate(
     id='Plate:1',
     name='Control Plate',
@@ -40,7 +40,7 @@ Plate(
 )
 
 In [5]: ome.plates[0].wells[0]
-Out[5]: 
+Out[5]:
 Well(
     id='Well:1',
     column=0,
@@ -49,7 +49,7 @@ Well(
 )
 
 In [6]: ome.images[0]
-Out[6]: 
+Out[6]:
 Image(
     id='Image:0',
     name='Series 1',
@@ -73,7 +73,7 @@ Image(
 )
 
 In [7]: ome.images[0].pixels.channels[0]
-Out[7]: 
+Out[7]:
 Channel(
     id='Channel:0:0',
     name='CH1',
@@ -85,7 +85,7 @@ Channel(
     samples_per_pixel=1,
 )
 
-In [8]: ome.images[0].pixels.channels[0].emission_wavelength                                                                               
+In [8]: ome.images[0].pixels.channels[0].emission_wavelength
 Out[8]: 523.0
 ```
 

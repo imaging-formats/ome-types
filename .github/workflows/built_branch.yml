@@ -5,18 +5,23 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to force-push the `built` branch
     steps:
       - name: Checkout main branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: true # needed to push the `built` branch below
 
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884  # v10.3.0
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
-          enable-cache: true
+          enable-cache: false
 
       - name: Build wheel
         run: uv build --wheel
@@ -26,7 +31,7 @@ jobs:
           shopt -s extglob
           rm -rf !("dist"|"*.git")
           unzip -o dist/*.whl -d .
-          rm -rf dist *.dist-info .github* .gitignore .r* .p*
+          rm -rf dist ./*.dist-info ./.github* ./.gitignore ./.r* ./.p*
 
       - name: Commit files
         run: |
@@ -36,7 +41,4 @@ jobs:
           git commit -am "Built wheel"
 
       - name: Push to built branch
-        uses: ad-m/github-push-action@master
-        with:
-          branch: built
-          force: true
+        run: git push --force origin HEAD:refs/heads/built
