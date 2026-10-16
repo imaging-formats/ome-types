@@ -42,9 +42,7 @@ RUFF_IGNORE: list[str] = [
 ]
 
 
-def get_config(
-    package: str, kw_only: bool = True, compound_fields: bool = False
-) -> cfg.GeneratorConfig:
+def get_config(package: str, compound_fields: bool = False) -> cfg.GeneratorConfig:
     """Return a GeneratorConfig for the OME schema."""
     # ALLOW "type" to be used as a field name
     text.stop_words.difference_update(ALLOW_RESERVED_NAMES)
@@ -69,18 +67,12 @@ def get_config(
             )
         )
 
-    # kw_only is important, it makes required fields actually be required.
-    # xsdata >= 26.1 removed the option and always uses kw_only.
-    fmt_kwargs: dict[str, Any] = {}
-    if "kw_only" in cfg.OutputFormat.__dataclass_fields__:
-        fmt_kwargs["kw_only"] = kw_only
-
     keep_case = cfg.NameConvention(cfg.NameCase.ORIGINAL, "type")
     return cfg.GeneratorConfig(
         output=GeneratorOutput(
             package=package,
             # format.value lets us use our own generator
-            format=cfg.OutputFormat(value=OME_FORMAT, **fmt_kwargs),
+            format=cfg.OutputFormat(value=OME_FORMAT),
             structure_style=cfg.StructureStyle.CLUSTERS,
             docstring_style=cfg.DocstringStyle.NUMPY,
             compound_fields=cfg.CompoundFields(enabled=compound_fields),

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from contextlib import contextmanager
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
@@ -72,18 +71,6 @@ class OmeFilters(PydanticBaseFilters):
         # the config.  For now, we just assume it's the OME schema and that's the
         # hardcoded default in _util.get_appinfo
         self.appinfo = _util.get_appinfo()
-        # xsdata >= 26.1 removed `union_type` and `kw_only` (both always on)
-        self.union_type = getattr(self, "union_type", True)
-        self.kw_only = getattr(self.format, "kw_only", True)
-
-    @contextmanager
-    def _modern_typing(self) -> Iterator[None]:
-        """Context manager to use modern typing syntax."""
-        prev_u, self.union_type = self.union_type, True
-        try:
-            yield
-        finally:
-            self.union_type = prev_u
 
     def class_params(self, obj: Class) -> Iterator[tuple[str, str, str]]:  # type: ignore[override]
         # This method override goes along with the docstring jinja template override
@@ -95,8 +82,7 @@ class OmeFilters(PydanticBaseFilters):
             # IMPORTANT:
             # self.field_type must be called before getting attr.name, since that
             # is currently where plural names are corrected.  (This is a hack.)
-            with self._modern_typing():
-                type_ = self.field_type(obj, attr)
+            type_ = self.field_type(obj, attr)
 
             name = (
                 # use local_name for enums to preserve original XML value (e.g. "Å")
@@ -118,13 +104,11 @@ class OmeFilters(PydanticBaseFilters):
     def _attr_is_optional(self, attr: Attr) -> bool:
         if attr.name in ovr.NEVER_OPTIONAL:
             return False
-        return attr.is_nillable or (
-            attr.default is None and (attr.is_optional or not self.kw_only)
-        )
+        return attr.is_nillable or (attr.default is None and attr.is_optional)
 
     def _format_type(self, attr: Attr, result: str) -> str:
         if self._attr_is_optional(attr):
-            return f"None | {result}" if self.union_type else f"Optional[{result}]"
+            return f"None | {result}"
         return result
 
     def field_type(self, obj: Class, attr: Attr) -> str:
