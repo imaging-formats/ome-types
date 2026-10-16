@@ -1,5 +1,5 @@
 from collections.abc import Iterator, MutableMapping
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from pydantic import model_serializer
 
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
         def ms(self) -> list["Map.M"]: ...
 
 
-class MapMixin(MutableMapping[str, Optional[str]]):
+class MapMixin(MutableMapping[str, str | None]):
     def __delitem__(self: "HasMsProtocol", key: str) -> None:
         for m in self.ms:
             if m.k == key:
@@ -26,10 +26,10 @@ class MapMixin(MutableMapping[str, Optional[str]]):
     def __iter__(self: "HasMsProtocol") -> Iterator[str]:
         yield from (m.k for m in self.ms if m.k is not None)
 
-    def __getitem__(self: "HasMsProtocol", key: str) -> Optional[str]:
+    def __getitem__(self: "HasMsProtocol", key: str) -> str | None:
         return next((m.value for m in self.ms if m.k == key), None)
 
-    def __setitem__(self: "HasMsProtocol", key: str, value: Optional[str]) -> None:
+    def __setitem__(self: "HasMsProtocol", key: str, value: str | None) -> None:
         for m in self.ms:
             if m.k == key:
                 m.value = value or ""

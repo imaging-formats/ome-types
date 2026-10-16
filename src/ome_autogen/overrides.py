@@ -146,7 +146,11 @@ for override in OVERRIDES.values():
     if override.type_override:
         module, type_name = override.type_override
         mod_entry = IMPORT_PATTERNS.setdefault(module, {})
-        mod_entry[type_name] = [f": {type_name} =", f": Optional[{type_name}] ="]
+        mod_entry[type_name] = [
+            f": {type_name} =",
+            f": Optional[{type_name}] =",
+            f": None | {type_name} =",
+        ]
         OVERRIDE_ELEM_TO_CLASS[override.name] = type_name
 
 

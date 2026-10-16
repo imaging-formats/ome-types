@@ -9,14 +9,14 @@
     m.Arc()
     m.Microscope()
     ch = m.Channel()
-    reveal_type(ch.id)  # N: Revealed type is "builtins.str"
+    reveal_type(ch.id)  # NR: Revealed type is "(builtins\.)?str"
 
 - case: types_requiring_arguments
   main: |
     import ome_types.model as m
 
-    m.BinData(value=b'213', length=1)  # ER: Missing named argument "big_endian" .*
-    m.Image()  # ER: Missing named argument "pixels" .*
+    m.BinData(value=b'213', length=1)  # ER: Missing named argument "big_endian" .* # NR: "BinData" defined in .*
+    m.Image()  # ER: Missing named argument "pixels" .* # NR: "Image" defined in .*
 
 - case: extra_arguments
   skip: True  # mypy 1.17+ shows additional context notes

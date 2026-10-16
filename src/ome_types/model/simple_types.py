@@ -53,7 +53,6 @@ __all__ = [
     "ObjectiveID",
     "PercentFraction",
     "PixelType",
-    "PixelType",
     "PixelsID",
     "PlateAcquisitionID",
     "PlateID",
