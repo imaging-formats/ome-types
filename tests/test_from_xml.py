@@ -69,6 +69,7 @@ def test_uncapitalized_ns() -> None:
 
 def test_2013_06s_ns() -> None:
     # typo'd namespaces written by python-bioformats' omexml.py (e.g. imctools)
+    pytest.importorskip("lxml", reason="lxml needed for old schema")
     xml = """
     <ome:OME xmlns:ns2="http://www.openmicroscopy.org/Schemas/BinaryFile/2013-06s"
       xmlns:ome="http://www.openmicroscopy.org/Schemas/ome/2013-06s"
