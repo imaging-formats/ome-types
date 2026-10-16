@@ -96,6 +96,10 @@ dev = [
   "pre-commit-uv>=4.1.5",
 ]
 
+[tool.uv]
+# PySide6 6.12.0 aborts at shutdown on py<3.12 (none_dealloc). remove once fixed
+constraint-dependencies = ["pyside6 <6.12"]
+
 [tool.uv.sources]
 ome-types = { workspace = true }
 
