@@ -36,7 +36,7 @@ repos:
         args: [--force-exclude] # omit --write-changes
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.1
+    rev: v0.17.2
     hooks:
       - id: ruff-check
         args: [--fix, --unsafe-fixes]
@@ -48,7 +48,7 @@ repos:
       - id: mypy
         exclude: ^tests|^docs|_napari_plugin|widgets
         additional_dependencies:
-          - pydantic>=2.10
-          - xsdata==26.2  # within `build` extra range used by ome_autogen
+          - pydantic>=2.14.1
+          - xsdata==26.10  # within `build` extra range used by ome_autogen
           - Pint
           - types-lxml
